@@ -8,7 +8,9 @@ const getAllJobs = async (req, res) => {
 };
 
 const getJob = async (req, res) => {
-  res.send("Get job");
+  const id = req.params.id;
+  const job = await Job.find({ _id: id });
+  res.status(StatusCodes.OK).json({ job });
 };
 
 const createJob = async (req, res) => {
