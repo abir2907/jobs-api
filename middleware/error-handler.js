@@ -11,6 +11,13 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     )} field, please choose another value`;
     customError.statusCode = 400;
   }
+
+  if (err.name === "ValidationError") {
+    customError.msg = Object.values(err.errors)
+      .map((item) => item.message)
+      .join(", ");
+    customError.statusCode = 400;
+  }
   // return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err });
   return res.status(customError.statusCode).json({ msg: customError.msg });
 };
