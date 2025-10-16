@@ -3,9 +3,9 @@ require("express-async-errors");
 const path = require("path");
 
 // extra security packages
-const helmet = require("helmet");
-const cors = require("cors");
-const xss = require("xss-clean");
+// const helmet = require("helmet");
+// const cors = require("cors");
+// const xss = require("xss-clean");
 // const rateLimiter = require("express-rate-limit");
 
 // swagger
@@ -39,21 +39,21 @@ app.use(express.json());
 //     limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
 //   })
 // );
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        imgSrc: ["'self'", "data:", "validator.swagger.io"],
-        connectSrc: ["'self'"],
-      },
-    },
-  })
-);
-app.use(cors());
-app.use(xss());
+// app.use(
+//   helmet({
+//     contentSecurityPolicy: {
+//       directives: {
+//         defaultSrc: ["'self'"],
+//         scriptSrc: ["'self'", "'unsafe-inline'"],
+//         styleSrc: ["'self'", "'unsafe-inline'"],
+//         imgSrc: ["'self'", "data:", "validator.swagger.io"],
+//         connectSrc: ["'self'"],
+//       },
+//     },
+//   })
+// );
+// app.use(cors());
+// app.use(xss());
 
 // routes
 app.get("/", (req, res) => {
