@@ -1,5 +1,6 @@
 require("dotenv").config();
 require("express-async-errors");
+const path = require("path");
 
 // extra security packages
 const helmet = require("helmet");
@@ -10,7 +11,7 @@ const xss = require("xss-clean");
 // swagger
 const swaggerUI = require("swagger-ui-express");
 const YAML = require("yamljs");
-const swaggerDocument = YAML.load("./swagger.yaml");
+const swaggerDocument = YAML.load(path.join(__dirname, "./swagger.yaml"));
 
 const express = require("express");
 const app = express();
