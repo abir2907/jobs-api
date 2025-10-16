@@ -5,7 +5,12 @@ require("express-async-errors");
 const helmet = require("helmet");
 const cors = require("cors");
 const xss = require("xss-clean");
-const rateLimiter = require("express-rate-limit");
+// const rateLimiter = require("express-rate-limit");
+
+// swagger
+const swaggerUI = require("swagger-ui-express");
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load("./swagger.yaml");
 
 const express = require("express");
 const app = express();
@@ -26,18 +31,22 @@ const { applyTimestamps } = require("./models/Job");
 
 // extra packages
 app.use(express.json());
-app.set("trust proxy", 1 /* number of proxies between user and server */);
-app.use(
-  rateLimiter({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-  })
-);
+// app.set("trust proxy", 1 /* number of proxies between user and server */);
+// app.use(
+//   rateLimiter({
+//     windowMs: 15 * 60 * 1000, // 15 minutes
+//     limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+//   })
+// );
 app.use(helmet());
 app.use(cors());
 app.use(xss());
 
 // routes
+app.get("/", (req, res) => {
+  res.send(`<h1>Jobs API</h1><a href = "/api-docs">Documentation</a>`);
+});
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/jobs", authenticateUser, jobsRouter);
 
