@@ -4,7 +4,7 @@ info:
   contact: {}
   version: "1.0"
 servers:
-  - url: https://jobs-api-abirrr-5f51e5fcbd62.herokuapp.com/api/v1
+  - url: https://jobs-api-orpin.vercel.app/api/v1
     variables: {}
 paths:
   /auth/register:
