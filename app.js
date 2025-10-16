@@ -3,10 +3,10 @@ require("express-async-errors");
 const path = require("path");
 
 // extra security packages
-// const helmet = require("helmet");
-// const cors = require("cors");
-// const xss = require("xss-clean");
-// const rateLimiter = require("express-rate-limit");
+const helmet = require("helmet");
+const cors = require("cors");
+const xss = require("xss-clean");
+const rateLimiter = require("express-rate-limit");
 
 // swagger
 const swaggerUI = require("swagger-ui-express");
@@ -28,9 +28,20 @@ const jobsRouter = require("./routes/jobs");
 // error handler
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
+const { applyTimestamps } = require("./models/Job");
 
 // extra packages
 app.use(express.json());
+app.set("trust proxy", 1);
+app.use(
+  rateLimiter({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+  })
+);
+app.use(helmet());
+app.use(cors());
+app.use(xss());
 
 // Swagger UI options with CDN
 const swaggerOptions = {
